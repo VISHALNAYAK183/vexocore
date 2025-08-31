@@ -1,0 +1,45 @@
+package com.vexocore.taskmanager.dto;
+
+import jakarta.validation.constraints.*;
+import java.time.LocalDate;
+
+public class SignupRequest {
+
+    @NotNull
+    private Integer id;
+
+    @NotBlank
+    private String name;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String password;
+
+    @NotNull
+    private LocalDate dob;  // Only DOB is asked
+
+    @Pattern(regexp = "Male|Female|Other", message = "Gender must be Male, Female, or Other")
+    private String gender;
+
+    // Getters & Setters
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+
+    public LocalDate getDob() { return dob; }
+    public void setDob(LocalDate dob) { this.dob = dob; }
+
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
+}
