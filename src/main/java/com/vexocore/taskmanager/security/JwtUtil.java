@@ -1,35 +1,38 @@
-// package com.vexocore.taskmanager.security;
+package com.vexocore.taskmanager.security;
 
-// import io.jsonwebtoken.*;
-// import org.springframework.beans.factory.annotation.Value;
-// import org.springframework.stereotype.Component;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 
-// import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-// @Component
-// public class JwtUtil {
+import java.util.Date;
 
-//     @Value("${jwt.secret}")
-//     private String secret;
+@Component
+public class JwtUtil {
 
-//     @Value("${jwt.expiration}")
-//     private long expiration;
+    @Value("${jwt.secret}")
+    private String secret;
 
-//     public String generateToken(String email) {
-//         return Jwts.builder()
-//                 .setSubject(email)
-//                 .setIssuedAt(new Date())
-//                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
-//                 .signWith(io.jsonwebtoken.security.Keys.hmacShaKeyFor(secret.getBytes()))
-//                 .compact();
-//     }
+    @Value("${jwt.expiration}")
+    private long expiration;
 
-//     public String extractEmail(String token) {
-//         return Jwts.parserBuilder()
-//                 .setSigningKey(secret.getBytes())
-//                 .build()
-//                 .parseClaimsJws(token)
-//                 .getBody()
-//                 .getSubject();
-//     }
-// }
+    public String generateToken(String email) {
+    return Jwts.builder()
+            .setSubject(email)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + expiration))
+            .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
+            .compact();
+}
+
+public String extractEmail(String token) {
+    return Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())) 
+            .build()
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
+}
+
+}

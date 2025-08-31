@@ -1,8 +1,12 @@
 package com.vexocore.taskmanager.controller;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
 
 import com.vexocore.taskmanager.dto.*;
 import com.vexocore.taskmanager.entity.User;
 import com.vexocore.taskmanager.repository.UserRepository;
+import com.vexocore.taskmanager.security.JwtUtil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,8 +25,8 @@ public class AuthController {
     @Autowired
     private UserRepository userRepository;
 
-    // @Autowired
-    // private JwtUtil jwtUtil;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -48,21 +52,21 @@ public class AuthController {
         return "User registered successfully!";
     }
 
-    // // Login
-    // @PostMapping("/login")
-    // public Object login(@Valid @RequestBody LoginRequest request) {
-    //     Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
+ 
+    @PostMapping("/login")
+    public Object login(@Valid @RequestBody LoginRequest request) {
+        Optional<User> userOpt = userRepository.findByEmail(request.getEmail());
 
-    //     if (userOpt.isEmpty()) {
-    //         return "Error: Invalid email or password!";
-    //     }
+        if (userOpt.isEmpty()) {
+            return "Error: Invalid email or password!";
+        }
 
-    //     User user = userOpt.get();
-    //     if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-    //         return "Error: Invalid email or password!";
-    //     }
+        User user = userOpt.get();
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            return "Error: Invalid email or password!";
+        }
 
-    //     String token = jwtUtil.generateToken(user.getEmail());
-    //     return new LoginResponse(token);
-    // }
+        String token = jwtUtil.generateToken(user.getEmail());
+        return new LoginResponse(token);
+    }
 }
