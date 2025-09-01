@@ -6,7 +6,7 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
+import java.util.*;
 
 @Component
 public class JwtUtil {
@@ -17,8 +17,15 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private long expiration;
 
-    public String generateToken(String email) {
+    public String generateToken(String email,String name,String id,String age,String dob, String gender) {
+         Map<String, Object> claims = new HashMap<>();
+        claims.put("name", name);
+        claims.put("id", id);
+        claims.put("age", age);
+        claims.put("dob", dob);
+        claims.put("gender", gender);
     return Jwts.builder()
+     .setClaims(claims)
             .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + expiration))
@@ -33,6 +40,13 @@ public String extractEmail(String token) {
             .parseClaimsJws(token)
             .getBody()
             .getSubject();
+}
+public Claims extractAllClaims(String token) {
+    return Jwts.parserBuilder()
+            .setSigningKey(Keys.hmacShaKeyFor(secret.getBytes()))
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
 }
 
 }

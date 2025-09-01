@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Base64;
 import java.util.Optional;
 
 @RestController
@@ -66,7 +67,18 @@ public class AuthController {
             return "Error: Invalid email or password!";
         }
 
-        String token = jwtUtil.generateToken(user.getEmail());
+       String token = jwtUtil.generateToken(
+    user.getEmail(),
+    user.getName(),
+    user.getId().toString(),
+    user.getAge().toString(),
+    user.getDob().toString(),
+    user.getGender()
+);
+        System.out.println("Tokesn"+token);
+          String[] parts = token.split("\\.");
+        String payload = new String(Base64.getDecoder().decode(parts[1]));
+        System.out.println("Payload: " + payload);
         return new LoginResponse(token);
     }
 }
