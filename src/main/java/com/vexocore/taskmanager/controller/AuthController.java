@@ -31,7 +31,7 @@ public class AuthController {
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    // Signup
+    
     @PostMapping("/signup")
     public String signup(@Valid @RequestBody SignupRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
@@ -43,7 +43,7 @@ public class AuthController {
                 request.getId(),
                 request.getName(),
                 request.getEmail(),
-                passwordEncoder.encode(request.getPassword()), // password encrypted
+                passwordEncoder.encode(request.getPassword()), 
                 age,
                 request.getDob(),
                 request.getGender()

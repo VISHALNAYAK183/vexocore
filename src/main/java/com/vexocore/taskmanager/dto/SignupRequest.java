@@ -19,12 +19,12 @@ public class SignupRequest {
     private String password;
 
     @NotNull
-    private LocalDate dob;  // Only DOB is asked
+    private LocalDate dob;  
 
     @Pattern(regexp = "Male|Female|Other", message = "Gender must be Male, Female, or Other")
     private String gender;
 
-    // Getters & Setters
+ 
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 

@@ -1,7 +1,5 @@
 package com.vexocore.taskmanager.entity;
 
-
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -10,11 +8,11 @@ import java.time.LocalDateTime;
 public class Tasks {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto Increment
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
     private Integer id;
 
     @Column(nullable = false)
-    private Integer userId;   // Foreign key from users table
+    private Integer userId;   
 
     @Column(nullable = false, length = 200)
     private String title;
@@ -24,8 +22,10 @@ public class Tasks {
 
     @Column(length = 20)
     private String status = "PENDING";
+       private String active = "Y";
       @Column(nullable = false)
     private Boolean completed = false;
+      
 
     private LocalDateTime createdAt = LocalDateTime.now();
     private LocalDateTime updatedAt = LocalDateTime.now();
@@ -39,7 +39,7 @@ public class Tasks {
         this.status = "PENDING";
     }
 
-    // Getters and setters
+   
     public Integer getId() { return id; }
     public void setId(Integer id) { this.id = id; }
 
@@ -54,7 +54,8 @@ public class Tasks {
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
-
+    public String getActive() { return active; }
+    public void setActive(String active) { this.active = active; }
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
