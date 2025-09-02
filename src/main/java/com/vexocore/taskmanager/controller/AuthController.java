@@ -40,7 +40,6 @@ public class AuthController {
   LocalDate dob = request.getDob();
         int age = Period.between(dob, LocalDate.now()).getYears();
         User user = new User(
-                request.getId(),
                 request.getName(),
                 request.getEmail(),
                 passwordEncoder.encode(request.getPassword()), 
